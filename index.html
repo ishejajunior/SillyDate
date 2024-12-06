@@ -24,6 +24,7 @@
             text-align: center;
             width: 80%;
             max-width: 500px;
+            position: relative; /* Ensure children can be absolutely positioned */
         }
         h1 {
             color: #FF69B4;
@@ -48,12 +49,15 @@
             background-color: #42f554;
             border: 2px solid #00a010;
             color: white;
+            position: relative; /* Ensure it remains part of normal layout */
         }
         #noBtn {
             background-color: #ff4242;
             border: 2px solid #a00000;
             color: white;
             position: absolute;
+            top: 50%; /* Center vertically relative to the container */
+            transform: translateY(-50%); /* Adjust for proper centering */
         }
     </style>
 </head>
@@ -96,11 +100,21 @@
             noBtn.style.top = `${Math.random() * maxY}px`;
         }
 
+        // Initialize the "No" button position next to the "Yes" button
+        function setInitialNoButtonPosition() {
+            const yesBtnRect = yesBtn.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+
+            // Place "No" button just to the right of the "Yes" button
+            noBtn.style.left = `${yesBtnRect.right - containerRect.left + 20}px`;
+            noBtn.style.top = `${yesBtnRect.top - containerRect.top}px`;
+        }
+
         // Add event listener to the "No" button for mouse hover
         noBtn.addEventListener('mouseover', repositionNoButton);
 
-        // Initialize the "No" button position
-        repositionNoButton();
+        // Set the initial position of the "No" button
+        setInitialNoButtonPosition();
     </script>
 </body>
 </html>
