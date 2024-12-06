@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Will You Go on a Date with Me?</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(45deg, #FFB3BA, #BAFFC9);
+            text-align: center;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #FF69B4;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #yesBtn {
+            background-color: #42f554;
+            border: 2px solid #00a010;
+            color: white;
+        }
+        #noBtn {
+            background-color: #ff4242;
+            border: 2px solid #a00000;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Will You Go on a Date with Me? 💕</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="sayYes()">Yes, I Will!</button>
+            <button id="noBtn" onmouseover="moveNoButton(event)">No, I Won't</button>
+        </div>
+    </div>
+
+    <script>
+        function moveNoButton(event) {
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+
+            // Increase yes button size each time no button is hovered
+            yesBtn.style.transform = `scale(${1 + (Math.random() * 0.3 + 0.1)})`;
+            yesBtn.style.fontSize = `${1.2 + (Math.random() * 0.3)}em`;
+
+            // Move no button randomly
+            const maxX = window.innerWidth - noBtn.offsetWidth;
+            const maxY = window.innerHeight - noBtn.offsetHeight;
+
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${Math.random() * maxX}px`;
+            noBtn.style.top = `${Math.random() * maxY}px`;
+        }
+
+        function sayYes() {
+            alert("Yay! 🎉 Best decision ever!");
+            document.body.innerHTML = `
+                <div style="text-align: center; font-family: 'Comic Sans MS', cursive; color: #FF69B4;">
+                    <h1>Can't Wait for Our Date! 💖</h1>
+                    <p style="font-size: 2em;">See you soon! 😍</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
