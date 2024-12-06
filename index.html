@@ -24,7 +24,7 @@
             text-align: center;
             width: 80%;
             max-width: 500px;
-            position: relative; /* Ensure children can be absolutely positioned */
+            position: relative; /* Required for absolute positioning of buttons */
         }
         h1 {
             color: #FF69B4;
@@ -32,11 +32,8 @@
             font-size: 2em;
         }
         .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
             position: relative;
+            display: inline-block; /* Keep buttons in the flow */
         }
         button {
             padding: 15px 30px;
@@ -49,15 +46,13 @@
             background-color: #42f554;
             border: 2px solid #00a010;
             color: white;
-            position: relative; /* Ensure it remains part of normal layout */
+            position: relative; /* Inline with layout initially */
         }
         #noBtn {
             background-color: #ff4242;
             border: 2px solid #a00000;
             color: white;
-            position: absolute;
-            top: 50%; /* Center vertically relative to the container */
-            transform: translateY(-50%); /* Adjust for proper centering */
+            position: absolute; /* Positioned dynamically */
         }
     </style>
 </head>
@@ -105,8 +100,8 @@
             const yesBtnRect = yesBtn.getBoundingClientRect();
             const containerRect = container.getBoundingClientRect();
 
-            // Place "No" button just to the right of the "Yes" button
-            noBtn.style.left = `${yesBtnRect.right - containerRect.left + 20}px`;
+            // Calculate "No" button position relative to the container
+            noBtn.style.left = `${yesBtnRect.right - containerRect.left + 10}px`; // 10px gap
             noBtn.style.top = `${yesBtnRect.top - containerRect.top}px`;
         }
 
