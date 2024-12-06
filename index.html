@@ -69,7 +69,7 @@
     <div class="container">
         <h1>Will You Go on a Date with Me? 💕</h1>
         <div class="buttons">
-            <button id="yesBtn" onclick="sayYes()">Yes, I Will!</button>
+            <button id="yesBtn">Yes, I Will!</button>
             <button id="noBtn">No, I Won't</button>
         </div>
     </div>
@@ -130,6 +130,9 @@
                 </div>
             `;
         }
+
+        // Add event listener for yes button
+        yesBtn.addEventListener('click', sayYes);
 
         // Initialize the no button behavior
         addNoButtonListeners();
