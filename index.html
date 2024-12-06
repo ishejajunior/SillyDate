@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will You Go on a Date with Me?</title>
     <style>
         body {
@@ -13,6 +14,7 @@
             font-family: 'Comic Sans MS', cursive;
             background: linear-gradient(45deg, #FFB3BA, #BAFFC9);
             text-align: center;
+            overflow: hidden;
         }
         .container {
             background-color: white;
@@ -20,11 +22,13 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             text-align: center;
+            width: 80%;
+            max-width: 500px;
         }
         h1 {
             color: #FF69B4;
             margin-bottom: 30px;
-            font-size: 2.5em;
+            font-size: 2em;
         }
         .buttons {
             display: flex;
@@ -38,6 +42,7 @@
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
         #yesBtn {
             background-color: #42f554;
@@ -49,6 +54,15 @@
             border: 2px solid #a00000;
             color: white;
         }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -56,26 +70,55 @@
         <h1>Will You Go on a Date with Me? 💕</h1>
         <div class="buttons">
             <button id="yesBtn" onclick="sayYes()">Yes, I Will!</button>
-            <button id="noBtn" onmouseover="moveNoButton(event)">No, I Won't</button>
+            <button id="noBtn">No, I Won't</button>
         </div>
     </div>
+    <div class="overlay" id="touchOverlay"></div>
 
     <script>
-        function moveNoButton(event) {
-            const noBtn = document.getElementById('noBtn');
-            const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const touchOverlay = document.getElementById('touchOverlay');
 
-            // Increase yes button size each time no button is hovered
+        function repositionNoButton() {
+            // Increase yes button size 
             yesBtn.style.transform = `scale(${1 + (Math.random() * 0.3 + 0.1)})`;
             yesBtn.style.fontSize = `${1.2 + (Math.random() * 0.3)}em`;
 
             // Move no button randomly
-            const maxX = window.innerWidth - noBtn.offsetWidth;
-            const maxY = window.innerHeight - noBtn.offsetHeight;
+            const containerRect = noBtn.closest('.container').getBoundingClientRect();
+            const maxX = containerRect.width - noBtn.offsetWidth;
+            const maxY = containerRect.height - noBtn.offsetHeight;
 
             noBtn.style.position = 'absolute';
             noBtn.style.left = `${Math.random() * maxX}px`;
             noBtn.style.top = `${Math.random() * maxY}px`;
+        }
+
+        // Add event listeners for both mouse and touch
+        function addNoButtonListeners() {
+            // Mouse events
+            noBtn.addEventListener('mouseover', repositionNoButton);
+
+            // Touch events
+            touchOverlay.style.display = 'block';
+            touchOverlay.addEventListener('touchstart', (e) => {
+                // Prevent default to stop scrolling
+                e.preventDefault();
+                
+                // Check if touch is over the no button
+                const touch = e.touches[0];
+                const noBtnRect = noBtn.getBoundingClientRect();
+                
+                if (
+                    touch.clientX >= noBtnRect.left && 
+                    touch.clientX <= noBtnRect.right &&
+                    touch.clientY >= noBtnRect.top && 
+                    touch.clientY <= noBtnRect.bottom
+                ) {
+                    repositionNoButton();
+                }
+            }, { passive: false });
         }
 
         function sayYes() {
@@ -87,6 +130,9 @@
                 </div>
             `;
         }
+
+        // Initialize the no button behavior
+        addNoButtonListeners();
     </script>
 </body>
 </html>
