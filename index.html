@@ -80,6 +80,19 @@
         const yesBtn = document.getElementById('yesBtn');
         const touchOverlay = document.getElementById('touchOverlay');
 
+        function sayYes() {
+            alert("Yay! 🎉 Best decision ever!");
+            document.body.innerHTML = `
+                <div style="text-align: center; font-family: 'Comic Sans MS', cursive; color: #FF69B4;">
+                    <h1>Can't Wait for Our Date! 💖</h1>
+                    <p style="font-size: 2em;">See you soon! 😍</p>
+                </div>
+            `;
+        }
+
+        // Add event listener for yes button
+        yesBtn.addEventListener('click', sayYes);
+
         function repositionNoButton() {
             // Increase yes button size 
             yesBtn.style.transform = `scale(${1 + (Math.random() * 0.3 + 0.1)})`;
@@ -121,18 +134,7 @@
             }, { passive: false });
         }
 
-        function sayYes() {
-            alert("Yay! 🎉 Best decision ever!");
-            document.body.innerHTML = `
-                <div style="text-align: center; font-family: 'Comic Sans MS', cursive; color: #FF69B4;">
-                    <h1>Can't Wait for Our Date! 💖</h1>
-                    <p style="font-size: 2em;">See you soon! 😍</p>
-                </div>
-            `;
-        }
-
-        // Add event listener for yes button
-        yesBtn.addEventListener('click', sayYes);
+        
 
         // Initialize the no button behavior
         addNoButtonListeners();
