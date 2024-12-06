@@ -35,14 +35,14 @@
             justify-content: center;
             gap: 20px;
             margin-top: 20px;
+            position: relative;
         }
         button {
             padding: 15px 30px;
             font-size: 1.2em;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+            transition: transform 0.3s ease;
         }
         #yesBtn {
             background-color: #42f554;
@@ -53,15 +53,7 @@
             background-color: #ff4242;
             border: 2px solid #a00000;
             color: white;
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            display: none;
+            position: absolute;
         }
     </style>
 </head>
@@ -73,13 +65,13 @@
             <button id="noBtn">No, I Won't</button>
         </div>
     </div>
-    <div class="overlay" id="touchOverlay"></div>
 
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
-        const touchOverlay = document.getElementById('touchOverlay');
+        const container = document.querySelector('.container');
 
+        // Function for handling the "Yes" button click
         function sayYes() {
             alert("Yay! 🎉 Best decision ever!");
             document.body.innerHTML = `
@@ -90,54 +82,25 @@
             `;
         }
 
-        // Add event listener for yes button
+        // Add click event listener to the "Yes" button
         yesBtn.addEventListener('click', sayYes);
 
+        // Function for repositioning the "No" button
         function repositionNoButton() {
-            // Increase yes button size 
-            yesBtn.style.transform = `scale(${1 + (Math.random() * 0.3 + 0.1)})`;
-            yesBtn.style.fontSize = `${1.2 + (Math.random() * 0.3)}em`;
-
-            // Move no button randomly
-            const containerRect = noBtn.closest('.container').getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
             const maxX = containerRect.width - noBtn.offsetWidth;
             const maxY = containerRect.height - noBtn.offsetHeight;
 
-            noBtn.style.position = 'absolute';
+            // Randomly reposition the "No" button within the container
             noBtn.style.left = `${Math.random() * maxX}px`;
             noBtn.style.top = `${Math.random() * maxY}px`;
         }
 
-        // Add event listeners for both mouse and touch
-        function addNoButtonListeners() {
-            // Mouse events
-            noBtn.addEventListener('mouseover', repositionNoButton);
+        // Add event listener to the "No" button for mouse hover
+        noBtn.addEventListener('mouseover', repositionNoButton);
 
-            // Touch events
-            touchOverlay.style.display = 'block';
-            touchOverlay.addEventListener('touchstart', (e) => {
-                // Prevent default to stop scrolling
-                e.preventDefault();
-                
-                // Check if touch is over the no button
-                const touch = e.touches[0];
-                const noBtnRect = noBtn.getBoundingClientRect();
-                
-                if (
-                    touch.clientX >= noBtnRect.left && 
-                    touch.clientX <= noBtnRect.right &&
-                    touch.clientY >= noBtnRect.top && 
-                    touch.clientY <= noBtnRect.bottom
-                ) {
-                    repositionNoButton();
-                }
-            }, { passive: false });
-        }
-
-        
-
-        // Initialize the no button behavior
-        addNoButtonListeners();
+        // Initialize the "No" button position
+        repositionNoButton();
     </script>
 </body>
 </html>
